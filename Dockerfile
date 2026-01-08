@@ -1,5 +1,5 @@
 # Usamos la imagen oficial actual (Eclipse Temurin) con Java 11
-FROM eclipse-temurin:11-jdk
+FROM eclipse-temurin:17-jdk
 
 # Directorio de trabajo
 WORKDIR /app
