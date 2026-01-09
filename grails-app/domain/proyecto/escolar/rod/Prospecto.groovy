@@ -1,4 +1,4 @@
-package rodnix.escolar
+package proyecto.escolar.rod
 
 class Prospecto {
     String nombre
