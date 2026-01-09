@@ -106,9 +106,19 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: rodnixco_admin
+    password: Paradise40??
+    url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    dbCreate: update
+
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: false
+        use_query_cache: false
+    # Neubox suele usar MariaDB/MySQL 5.7 o 8, este dialecto es seguro:
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 environments:
     development:

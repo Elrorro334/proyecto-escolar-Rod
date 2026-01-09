@@ -1,16 +1,8 @@
-package proyecto.escolar.rod
-
 class UrlMappings {
-
     static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
-            }
-        }
-
-        "/"(view:"/index")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+        "/"(controller: "main", action: "index")
+        "/save"(controller: "main", action: "save") // Esta es la ruta del form
+        "500"(view: '/error')
+        "404"(view: '/notFound')
     }
 }
