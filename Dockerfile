@@ -8,4 +8,4 @@ RUN chmod +x gradlew
 
 RUN ./gradlew clean build -x test
 
-CMD find build/libs -name "*.war" ! -name "*plain*" -type f -exec java -Xmx256m -Dserver.port=10000 -Dserver.address=0.0.0.0 -jar {} \;
+CMD find build/libs -name "*.war" ! -name "*plain*" -type f -exec java -Xms128m -Xmx200m -XX:MaxMetaspaceSize=180m -XX:+UseSerialGC -Xss512k -Dserver.port=10000 -Dserver.address=0.0.0.0 -jar {} \;
