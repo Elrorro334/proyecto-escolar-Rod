@@ -8,4 +8,4 @@ RUN chmod +x gradlew
 
 RUN ./gradlew clean build -x test
 
-CMD find build/libs -name "*.war" -type f -exec java -Xmx256m -Dserver.port=10000 -Dserver.address=0.0.0.0 -jar {} \;
+CMD find build/libs -name "*.war" ! -name "*plain*" -type f -exec java -Xmx256m -Dserver.port=10000 -Dserver.address=0.0.0.0 -jar {} \;
