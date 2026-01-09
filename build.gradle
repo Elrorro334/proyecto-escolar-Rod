@@ -14,7 +14,6 @@ buildscript {
         classpath "org.apache.grails:grails-gradle-plugins"
         classpath "org.apache.grails:grails-data-hibernate5"
         classpath "cloud.wondrify:asset-pipeline-gradle"
-        // ¡AQUÍ NO VA! YA LA QUITÉ DE AQUÍ
     }
 }
 
@@ -73,8 +72,6 @@ dependencies {
     testImplementation "org.apache.grails:grails-testing-support-datamapping"
     testImplementation "org.spockframework:spock-core"
     testImplementation "org.apache.grails:grails-testing-support-web"
-
-    // ---> AQUÍ SÍ VA (y usamos implementation en lugar de runtime) <---
     implementation 'mysql:mysql-connector-java:8.0.33'
 }
 
@@ -98,4 +95,8 @@ assets {
             'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
             'webjars/bootstrap-icons/*/font/fonts/*',
     ]
+}
+
+bootWar {
+    archiveFileName = "app.war"
 }
