@@ -14,7 +14,7 @@ buildscript {
         classpath "org.apache.grails:grails-gradle-plugins"
         classpath "org.apache.grails:grails-data-hibernate5"
         classpath "cloud.wondrify:asset-pipeline-gradle"
-        runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+        runtime 'mysql:mysql-connector-java:8.0.33'
     }
 }
 
