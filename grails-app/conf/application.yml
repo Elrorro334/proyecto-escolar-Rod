@@ -1,51 +1,10 @@
----
 grails:
     profile: web
     codegen:
         defaultPackage: proyecto.escolar.rod
     gorm:
         reactor:
-            # Whether to translate GORM events into Reactor events
-            # Disabled by default for performance reasons
             events: false
-info:
-    app:
-        name: '@info.app.name@'
-        version: '@info.app.version@'
-        grailsVersion: '@info.app.grailsVersion@'
-spring:
-    jmx:
-        unique-names: true
-    main:
-        banner-mode: "off"
-    groovy:
-        template:
-            check-template-location: false
-    devtools:
-        restart:
-            additional-exclude:
-                - '*.gsp'
-                - '**/*.gsp'
-                - '*.gson'
-                - '**/*.gson'
-                - 'logback-spring.xml'
-                - '*.properties'
-environments:
-    development:
-        management:
-            endpoints:
-                enabled-by-default: true
-                web:
-                    base-path: '/actuator'
-                    exposure:
-                        include: '*'
-    production:
-        management:
-            endpoints:
-                enabled-by-default: false
-
----
-grails:
     mime:
         disable:
             accept:
@@ -97,29 +56,50 @@ grails:
                 taglib: none
                 staticparts: none
 
----
-hibernate:
-    cache:
-        queries: false
-        use_second_level_cache: false
-        use_query_cache: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+
+spring:
+    jmx:
+        unique-names: true
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+    devtools:
+        restart:
+            additional-exclude:
+                - '*.gsp'
+                - '**/*.gsp'
+                - '*.gson'
+                - '**/*.gson'
+                - 'logback-spring.xml'
+                - '*.properties'
+
+# --- CONFIGURACIÓN DE BASE DE DATOS GLOBAL (Por defecto MySQL) ---
 dataSource:
     pooled: true
     jmxExport: true
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: rodnixco_admin
-    password: Paradise40??
+    # TUS DATOS DE NEUBOX:
+    username: "rodnixco_admin"
+    password: "Paradise40??"
     url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     dbCreate: update
 
+# --- CONFIGURACIÓN DE HIBERNATE (Una sola vez) ---
 hibernate:
     cache:
         queries: false
         use_second_level_cache: false
         use_query_cache: false
-    # Neubox suele usar MariaDB/MySQL 5.7 o 8, este dialecto es seguro:
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
+# --- ENTORNOS ESPECÍFICOS ---
 environments:
     development:
         dataSource:
@@ -131,8 +111,9 @@ environments:
             url: jdbc:h2:mem:testDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
-            dbCreate: none
-            url: jdbc:h2:./prodDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            # En producción usamos la configuración global (MySQL)
+            # Solo agregamos propiedades de pool para rendimiento
+            dbCreate: update
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -150,4 +131,4 @@ environments:
                 testWhileIdle: true
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+                defaultTransactionIsolation: 2
