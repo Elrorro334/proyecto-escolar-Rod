@@ -6,7 +6,7 @@ COPY . .
 
 RUN chmod +x gradlew
 
-RUN ./gradlew clean bootWar -x test
+RUN ./gradlew clean bootWar -x test --no-daemon
 
 EXPOSE 10000
 
