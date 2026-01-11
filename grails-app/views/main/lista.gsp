@@ -2,33 +2,17 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Hola mundo - Grails | Rodnix</title>
+    <title>Lista - Rodnix</title>
 </head>
 <body>
 
-    <h1>Hola Mundo</h1>
-    <p>Ingresa tu nombre</p>
-
-    <form action="/save" method="POST" class="rodnix-form">
-        <div class="input-group">
-            <label for="nombre">Nombre Completo</label>
-            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Rodrigo Sánchez" required>
-        </div>
-
-        <div class="captcha-wrapper">
-            <div class="g-recaptcha" 
-                 data-sitekey="6LcxNUMsAAAAAJCF18aZ7IRp8F_FEbDCAr-rgChp" 
-                 data-theme="dark">
-            </div>
-        </div>
-
-        <button type="submit" class="btn-submit">
-            <i class="fas fa-database"></i> Guardar en BD
-        </button>
-    </form>
-
     <div class="list-container">
-        <h2>Registros en BD</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>Registros en BD</h2>
+            <a href="${createLink(controller: 'main', action: 'index')}" class="btn-submit" style="text-decoration:none; padding:8px 15px;">
+                <i class="fas fa-plus"></i> Nuevo
+            </a>
+        </div>
         
         <g:if test="${prospectos}">
             <table class="rodnix-table">
@@ -54,35 +38,24 @@
     </div>
 
     <script>
-        // Configuración del diseño del Toast (Oscuro y elegante)
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
-            background: '#1a1c23', // Tu color de fondo input
-            color: '#ffffff',      // Texto blanco
+            background: '#1a1c23', 
+            color: '#ffffff',      
             didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         });
 
-        // Lógica de Grails inyectada en JS
-        // Si el servidor mandó un mensaje de éxito (flash.message)
         <g:if test="${flash.message}">
             Toast.fire({
                 icon: 'success',
                 title: '${flash.message}'
-            });
-        </g:if>
-
-        // Si el servidor mandó un error (model.error)
-        <g:if test="${error}">
-            Toast.fire({
-                icon: 'error',
-                title: '${error}'
             });
         </g:if>
     </script>

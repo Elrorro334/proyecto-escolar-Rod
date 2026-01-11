@@ -3,12 +3,16 @@ package proyecto.escolar.rod
 class UrlMappings {
 
     static mappings = {
-        // Rutas principales apuntando al MainController
+        // Mapeo para la raíz (Home)
         "/"(controller: "main", action: "index")
-        "/save"(controller: "main", action: "save")
 
-        // Páginas de error
-        "500"(view: '/error')
+        "/$controller/$action?/$id?(.$format)?"{
+            constraints {
+                // Aquí puedes poner restricciones si fueran necesarias
+            }
+        }
+
         "404"(view: '/notFound')
+        "500"(view: '/error')
     }
 }
