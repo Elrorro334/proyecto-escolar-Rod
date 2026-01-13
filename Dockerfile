@@ -8,10 +8,8 @@ RUN chmod +x gradlew
 
 RUN ./gradlew clean bootWar -x test --no-daemon
 
-EXPOSE 10000
-
-CMD java -Xms128m -Xmx200m -XX:+UseSerialGC -Xss512k \
+CMD java $JAVA_OPTS \
     -Dgrails.env=prod \
-    -Dserver.port=10000 \
+    -Dserver.port=$PORT \
     -Dserver.address=0.0.0.0 \
     -jar build/libs/*.war
