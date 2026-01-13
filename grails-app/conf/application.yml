@@ -88,7 +88,7 @@ dataSource:
     username: "rodnixco_admin"
     password: "Paradise40??"
     url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    dbCreate: update
+    dbCreate: none
 
 # --- CONFIGURACIÓN DE HIBERNATE (Una sola vez) ---
 hibernate:
