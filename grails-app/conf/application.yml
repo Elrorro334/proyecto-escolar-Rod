@@ -1,3 +1,4 @@
+---
 grails:
     profile: web
     codegen:
@@ -80,17 +81,15 @@ spring:
                 - 'logback-spring.xml'
                 - '*.properties'
 
+# Configuración Base de Datos (Común)
 dataSource:
     pooled: true
     jmxExport: true
     driverClassName: com.mysql.cj.jdbc.Driver
-    # TUS DATOS DE NEUBOX:
+    # Credenciales globales (fallback)
     username: "rodnixco_admin"
     password: "Paradise40??"
-    url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    dbCreate: none
 
-# --- CONFIGURACIÓN DE HIBERNATE (Una sola vez) ---
 hibernate:
     cache:
         queries: false
@@ -102,32 +101,43 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+            url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
             username: "rodnixco_admin"
             password: "Paradise40??"
+            driverClassName: com.mysql.cj.jdbc.Driver
+
     test:
         dataSource:
             dbCreate: update
             url: jdbc:h2:mem:testDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            driverClassName: org.h2.Driver
+            username: sa
+            password: ''
+
     production:
         dataSource:
-            dbCreate: update
+            # OPTIMIZADO: 'none' para velocidad y seguridad en Prod
+            dbCreate: none
+            
+            # URL DIRECTA A NEUBOX
+            url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+            
+            # CREDENCIALES HARDCODEADAS
+            username: "rodnixco_admin"
+            password: "Paradise40??"
+            driverClassName: com.mysql.cj.jdbc.Driver
+            
+            # OPTIMIZACIÓN HIKARI CP (CRÍTICO PARA QUE NO SE CAIGA)
             properties:
-                jmxEnabled: true
-                initialSize: 5
-                maxActive: 20   
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
+                poolName: GrailsHikariPool
+                maximumPoolSize: 10     # Límite seguro para Neubox
+                minimumIdle: 2          # Mantiene 2 conexiones vivas siempre
+                connectionTimeout: 30000 
+                idleTimeout: 300000     
+                maxLifetime: 1800000    # 30 min (Renovación obligatoria)
+                
+                # VALIDACIÓN ACTIVA (Evita error 500 tras inactividad)
+                validationQuery: "SELECT 1"
                 testOnBorrow: true
                 testWhileIdle: true
                 testOnReturn: false
-                jdbcInterceptors: ConnectionState
-                defaultTransactionIsolation: 2
