@@ -1,5 +1,5 @@
 package proyecto.escolar.rod
-docker run --rm -p 8080:8080 --name prueba-local mi-grails-local
+
 class Imagen {
     String nombreOriginal
     String contentType // Ej: 'image/jpeg', 'image/png'
