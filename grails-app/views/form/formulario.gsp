@@ -2,306 +2,222 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Formulario Corporativo</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* --- ESTILOS BASE --- */
-        body { 
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; 
-            background-color: #f0f2f5; 
-            color: #333;
-        }
-        
-        .form-container { 
-            background: #ffffff; 
-            max-width: 700px; 
-            margin: 40px auto; 
-            padding: 40px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08); 
-            border-top: 5px solid #2c3e50; /* Acento corporativo superior */
-        }
-
-        /* --- TIPOGRAFÍA Y ENCABEZADOS --- */
-        h1 { 
-            color: #2c3e50; 
-            font-size: 1.6rem; 
-            margin-bottom: 25px; 
-            padding-bottom: 15px; 
-            border-bottom: 1px solid #e1e4e8;
-            font-weight: 600;
-        }
-        
-        h3 { 
-            color: #34495e; 
-            font-size: 1.1rem; 
-            margin-top: 30px; 
-            margin-bottom: 20px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px;
-        }
-        
-        h3 i { color: #3498db; } /* Iconos de sección en azul */
-
-        /* --- INPUT GROUPS CON ICONOS --- */
-        .form-group { margin-bottom: 20px; }
-        
-        label { 
-            display: block; 
-            font-weight: 600; 
-            margin-bottom: 8px; 
-            color: #555; 
-            font-size: 0.9rem;
-        }
-        label.required::after { content: " *"; color: #e74c3c; }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Icono dentro del input */
-        .input-wrapper i {
-            position: absolute;
-            left: 12px;
-            color: #95a5a6;
-            font-size: 0.9rem;
-            z-index: 2;
-            transition: color 0.3s;
-        }
-
-        /* Inputs estilizados */
-        input[type=text], input[type=email], input[type=password], input[type=number], input[type=url], select, textarea {
-            width: 100%; 
-            padding: 10px 10px 10px 35px; /* Padding izquierdo para dejar espacio al icono */
-            border: 1px solid #dcdfe6; 
-            border-radius: 4px; 
-            font-size: 14px;
-            color: #2c3e50;
-            background-color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        /* Estados Focus */
-        input:focus, select:focus, textarea:focus { 
-            outline: none; 
-            border-color: #3498db; 
-            box-shadow: 0 0 0 3px rgba(52,152,219,0.1); 
-        }
-        
-        /* Cambiar color del icono al hacer focus en el input */
-        .input-wrapper:focus-within i { color: #3498db; }
-
-        /* Validación Visual */
-        input:required:valid, select:required:valid { border-right: 3px solid #2ecc71; }
-        input:required:invalid { border-right: 3px solid #e74c3c; }
-
-        /* --- MENSAJES DE ESTADO --- */
-        .alert-box {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-        
-        .alert-success { background-color: #f0f9eb; color: #67c23a; border: 1px solid #e1f3d8; }
-        .alert-error { background-color: #fef0f0; color: #f56c6c; border: 1px solid #fde2e2; }
-        .alert-box ul { margin: 0; padding-left: 20px; }
-
-        /* --- BOTÓN --- */
-        .btn-submit {
-            background-color: #2c3e50; 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            font-size: 15px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: 600; 
-            letter-spacing: 0.5px;
-            transition: background 0.3s, transform 0.1s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-submit:hover { background-color: #1a252f; }
-        .btn-submit:active { transform: translateY(1px); }
-
-        /* --- ELEMENTOS EXTRA --- */
-        .radio-group label { margin-right: 20px; font-weight: normal; cursor: pointer; color: #606266; }
-        .checkbox-container { 
-            background: #f8f9fa; 
-            padding: 15px; 
-            border-radius: 4px; 
-            border: 1px solid #eee;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-        .checkbox-label { display: flex; align-items: center; gap: 10px; font-weight: normal; cursor: pointer; margin: 0; }
-        input[type=checkbox] { margin: 0; width: 16px; height: 16px; cursor: pointer; }
-        
-        small { color: #909399; font-size: 0.85rem; margin-top: 4px; display: block; }
-    </style>
+    <title>Formulario de Prueba</title>
 </head>
 <body>
 
-<div class="form-container">
-    <h1><i class="fas fa-file-signature"></i> Formulario de Registro</h1>
+    <nav class="flex mb-6 text-slate-400 text-sm" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-2">
+            <li>
+                <a href="${createLink(uri: '/')}" class="hover:text-blue-500 transition-colors flex items-center">
+                    <i class="fas fa-home mr-2"></i> Inicio
+                </a>
+            </li>
+            <li><span class="text-slate-600">/</span></li>
+            <li class="text-blue-500 font-medium">Formulario de Prueba</li>
+        </ol>
+    </nav>
 
-    <g:if test="${flash.message}">
-        <div class="alert-box alert-success">
-            <i class="fas fa-check-circle fa-lg" style="margin-top: 3px;"></i>
-            <div>
-                <strong>Operación exitosa</strong><br>
-                ${flash.message}
-            </div>
-        </div>
-    </g:if>
+    <div class="mb-8 border-b border-slate-700 pb-5">
+        <h2 class="text-2xl font-bold text-white">Formulario de Prueba</h2>
+        <p class="mt-1 text-sm text-slate-400">
+            Validación estricta en frontend antes de enviar al servidor.
+        </p>
+    </div>
 
-    <g:hasErrors bean="${cmd}">
-        <div class="alert-box alert-error">
-            <i class="fas fa-exclamation-triangle fa-lg" style="margin-top: 3px;"></i>
-            <div>
-                <strong>Se encontraron errores en el formulario</strong>
-                <ul>
-                    <g:eachError bean="${cmd}" var="error">
-                        <li><g:message error="${error}"/></li>
-                    </g:eachError>
-                </ul>
-            </div>
-        </div>
-    </g:hasErrors>
-
-    <g:form controller="form" action="simular" autocomplete="off">
+    <div class="bg-slate-800 rounded-xl shadow-2xl border border-slate-700 overflow-hidden max-w-4xl mx-auto">
         
-        <h3><i class="fas fa-user-shield"></i> Información Personal</h3>
-        
-        <div class="form-group">
-            <label for="nombre" class="required">Nombre Completo</label>
-            <div class="input-wrapper">
-                <i class="fas fa-user"></i>
-                <g:textField name="nombre" value="${cmd?.nombre}" required="true" maxlength="50" minlength="3" placeholder="Ingrese nombre y apellidos" />
-            </div>
+        <div class="h-1 w-full bg-slate-900">
+            <div class="h-full bg-blue-600 w-1/2"></div>
         </div>
 
-        <div class="form-group">
-            <label for="email" class="required">Correo Electrónico</label>
-            <div class="input-wrapper">
-                <i class="fas fa-envelope"></i>
-                <g:textField name="email" type="email" value="${cmd?.email}" required="true" maxlength="100" placeholder="usuario@empresa.com"/>
-            </div>
-        </div>
+        <div class="p-6 sm:p-8">
+            <g:form controller="form" action="simular" name="careerForm" class="space-y-6">
 
-        <div class="form-group">
-            <label for="password" class="required">Contraseña</label>
-            <div class="input-wrapper">
-                <i class="fas fa-lock"></i>
-                <g:passwordField name="password" required="true" minlength="6" maxlength="20" placeholder="Mínimo 6 caracteres"/>
-            </div>
-        </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-slate-700 pb-2">
+                        <i class="fas fa-id-card text-blue-500 mr-2"></i> Datos Personales
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Nombre Completo <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <g:textField name="nombre" required="true" minlength="5" 
+                                    oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]/g, '')"
+                                    placeholder="Ej. Rodrigo Sánchez"
+                                    class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border 
+                                           focus:ring-2 focus:ring-blue-500 outline-none
+                                           valid:border-green-500 valid:ring-1 valid:ring-green-500/30
+                                           invalid:border-pink-500 invalid:text-pink-100 transition-all"/>
+                                <p class="mt-1 text-[10px] text-slate-500 peer-invalid:text-pink-500">Solo letras. Mínimo 5 caracteres.</p>
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            <label for="sitioWeb">Sitio Web / Portfolio</label>
-            <div class="input-wrapper">
-                <i class="fas fa-globe"></i>
-                <g:textField name="sitioWeb" type="url" value="${cmd?.sitioWeb}" placeholder="https://..." maxlength="255"/>
-            </div>
-            <small>Incluya el protocolo (http:// o https://)</small>
-        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Email Corporativo <span class="text-red-500">*</span></label>
+                            <g:textField name="email" type="email" required="true" placeholder="usuario@empresa.com"
+                                class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border 
+                                       focus:ring-2 focus:ring-blue-500 outline-none
+                                       valid:border-green-500 transition-all"/>
+                        </div>
 
-        <div class="form-group">
-            <label for="biografia">Perfil Profesional</label>
-            <div class="input-wrapper">
-                <i class="fas fa-align-left" style="top: 15px;"></i> <g:textArea name="biografia" rows="4" maxlength="1000" placeholder="Resumen de experiencia y objetivos...">${cmd?.biografia}</g:textArea>
-            </div>
-            <small>Máximo 1000 caracteres.</small>
-        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Teléfono Móvil <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="fas fa-phone absolute left-3 top-3.5 text-slate-500"></i>
+                                <input type="tel" name="telefono" 
+                                    maxlength="10" minlength="10" pattern="[0-9]{10}" required
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    placeholder="10 dígitos"
+                                    class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 pl-10 border 
+                                           focus:ring-2 focus:ring-blue-500 outline-none font-mono tracking-widest
+                                           valid:border-green-500 valid:ring-1 valid:ring-green-500/30
+                                           invalid:border-pink-500 transition-all"/>
+                            </div>
+                            <p class="mt-1 text-[10px] text-slate-500 peer-invalid:text-pink-500">Solo números. Exactamente 10 dígitos.</p>
+                        </div>
 
-        <h3><i class="fas fa-chart-pie"></i> Datos Demográficos</h3>
-
-        <div style="display: flex; gap: 20px;">
-            <div class="form-group" style="flex: 1;">
-                <label for="edad" class="required">Edad</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-birthday-cake"></i>
-                    <g:field type="number" name="edad" value="${cmd?.edad}" required="true" min="18" max="99" placeholder="Ej. 25"/>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Contraseña <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <g:passwordField name="password" required="true" pattern="(?=.*\\d)(?=.*[A-Z]).{8,}" placeholder="••••••••"
+                                    class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border 
+                                           focus:ring-2 focus:ring-blue-500 outline-none
+                                           valid:border-green-500 transition-all"/>
+                                <i class="fas fa-lock absolute right-3 top-3.5 text-slate-500 peer-focus:text-blue-500"></i>
+                            </div>
+                            <p class="mt-1 text-[10px] text-slate-500">Min 8 chars, 1 Mayúscula, 1 Número.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group" style="flex: 1;">
-                <label for="salario" class="required">Pretensión Salarial</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-dollar-sign"></i>
-                    <g:field type="number" name="salario" value="${cmd?.salario}" required="true" min="0.01" step="0.01" placeholder="0.00"/>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-slate-700 pb-2 pt-4">
+                        <i class="fas fa-briefcase text-blue-500 mr-2"></i> Perfil Técnico
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Años Exp. <span class="text-red-500">*</span></label>
+                            <input type="number" name="anosExperiencia" min="0" max="50" required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value > 50) this.value = 50;"
+                                class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border 
+                                       focus:ring-2 focus:ring-blue-500 outline-none valid:border-green-500"/>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Pretensión Salarial (MXN) <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-slate-400 font-bold">$</span>
+                                <input type="number" name="pretensionSalarial" min="1000" step="0.01" required
+                                    class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 pl-8 border 
+                                           focus:ring-2 focus:ring-blue-500 outline-none valid:border-green-500"/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Disponibilidad <span class="text-red-500">*</span></label>
+                            <input type="date" name="fechaDisponibilidad" required
+                                class="peer block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border 
+                                       focus:ring-2 focus:ring-blue-500 outline-none valid:border-green-500 [color-scheme:dark]"/>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Modalidad <span class="text-red-500">*</span></label>
+                            <g:select name="modalidad" from="${['Remoto', 'Híbrido', 'Presencial']}" 
+                                noSelection="['':'- Seleccione -']" required="true"
+                                class="block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border focus:ring-2 focus:ring-blue-500"/>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Departamento <span class="text-red-500">*</span></label>
+                            <g:select name="departamento" from="${['Desarrollo', 'Infraestructura', 'QA', 'Ventas', 'RH']}" 
+                                noSelection="['':'- Seleccione -']" required="true"
+                                class="block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border focus:ring-2 focus:ring-blue-500"/>
+                        </div>
+
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Stack Tecnológico <span class="text-red-500">*</span></label>
+                            <g:select name="habilidades" from="${['Java', 'Groovy', 'Grails', 'Spring Boot', 'React', 'Angular', 'AWS', 'Docker']}" 
+                                multiple="true" size="4" required="true"
+                                class="block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-2 border focus:ring-2 focus:ring-blue-500"/>
+                            <p class="mt-1 text-[10px] text-slate-500">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1 uppercase">Resumen Profesional</label>
+                    <g:textArea name="biografia" rows="3" maxlength="2000" placeholder="Breve descripción de su perfil..."
+                        class="block w-full rounded-lg bg-slate-900 border-slate-600 text-white p-3 border focus:ring-2 focus:ring-blue-500 placeholder-slate-600"/>
+                </div>
+
+                <div class="pt-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 rounded hover:bg-slate-700/50 transition-colors">
+                        <g:checkBox name="aceptaTerminos" required="true" class="w-5 h-5 rounded border-slate-500 bg-slate-700 text-blue-600 focus:ring-blue-500"/>
+                        <span class="text-sm text-slate-300">
+                            Confirmo que la información es real y acepto ser contactado. <span class="text-red-500">*</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="pt-6 border-t border-slate-700">
+                    <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span>Enviar Postulación</span>
+                        <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+            </g:form>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="required">Fecha de Nacimiento</label>
-            <div style="border: 1px solid #dcdfe6; padding: 8px; border-radius: 4px; background: #fff;">
-                <g:datePicker name="fechaNacimiento" value="${cmd?.fechaNacimiento}" precision="day" years="${1960..2008}"/>
-            </div>
-        </div>
+    <script>
+        // 1. Mostrar Toast si hay mensaje Flash (Simulación de éxito)
+        <g:if test="${flash.message}">
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '${flash.message}',
+                background: '#1e293b',
+                color: '#fff',
+                iconColor: '#22c55e'
+            });
+        </g:if>
 
-        <h3><i class="fas fa-clipboard-list"></i> Preferencias y Habilidades</h3>
+        // 2. Mostrar Alerta de Error si el Backend rechazó (Fallback)
+        <g:hasErrors bean="${cmd}">
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de Validación',
+                text: 'Por favor, corrige los campos marcados en rojo.',
+                background: '#1e293b',
+                color: '#fff',
+                confirmButtonColor: '#ef4444'
+            });
+        </g:hasErrors>
 
-        <div class="form-group">
-            <label class="required">Género</label>
-            <div class="radio-group" style="padding: 10px 0;">
-                <g:radioGroup name="genero" labels="['Masculino','Femenino','Otro']" values="['Masculino','Femenino','Otro']" value="${cmd?.genero}">
-                    <label><i class="fas fa-circle" style="font-size: 8px; vertical-align: middle; margin-right: 5px; color: #ccc;"></i> ${it.radio} ${it.label}</label>
-                </g:radioGroup>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="departamento" class="required">Departamento</label>
-            <div class="input-wrapper">
-                <i class="fas fa-building"></i>
-                <g:select name="departamento" from="${['Ventas', 'TI', 'RH', 'Finanzas']}" 
-                          value="${cmd?.departamento}" 
-                          noSelection="['':'- Seleccione Departamento -']"
-                          required="true"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="habilidades" class="required">Habilidades Técnicas</label>
-            <div class="input-wrapper">
-                <i class="fas fa-code" style="top: 15px;"></i>
-                <g:select name="habilidades" from="${['Java', 'Groovy', 'Grails', 'SQL', 'Docker', 'Spring Boot']}" 
-                          value="${cmd?.habilidades}" 
-                          multiple="true" 
-                          size="5"
-                          required="true"/>
-            </div>
-            <small>Mantenga presionado Ctrl (o Cmd) para seleccionar múltiples opciones.</small>
-        </div>
-
-        <div class="checkbox-container">
-            <label class="checkbox-label">
-                <g:checkBox name="aceptaTerminos" value="${cmd?.aceptaTerminos}" required="true"/>
-                <span>Confirmo que he leído y acepto los <a href="#" style="color:#3498db; text-decoration: none;">términos de servicio</a>. <span style="color:red">*</span></span>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" name="enviar" class="btn-submit">
-                <i class="fas fa-paper-plane"></i> Enviar Solicitud
-            </button>
-        </div>
-
-    </g:form>
-</div>
+        // 3. Validación Extra: Evitar envío si el formulario es inválido (aunque HTML5 ya lo hace)
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                Swal.fire({
+                    toast: true, position: 'top-end', showConfirmButton: false, timer: 3000,
+                    icon: 'warning', title: 'Campos incompletos', background: '#1e293b', color: '#fff'
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -1,74 +1,67 @@
 package proyecto.escolar.rod
-
 import grails.validation.Validateable
+import java.util.Calendar
 
 class FormController {
 
-    def index() {
-        // Renderiza la vista vacía inicialmente
-        render(view: "formulario")
+    def index() { 
+        render(view: "formulario") 
     }
 
-    // Acción que recibe el formulario
     def simular(FormularioCommand cmd) {
+        // 1. Verificar si hay errores de validación
         if (cmd.hasErrors()) {
-            // Si hay errores (excepciones de validación), regresamos a la vista
-            // Grails automáticamente pasa el objeto 'cmd' con los errores a la vista
             render(view: "formulario", model: [cmd: cmd])
             return
         }
 
-        // Si todo sale bien (Simulación de éxito)
-        flash.message = "¡Formulario validado correctamente! Datos recibidos en memoria: ${cmd.nombre}"
+        // 2. Simular éxito
+        flash.message = "¡Postulación recibida correctamente para ${cmd.nombre}!"
         render(view: "formulario")
     }
 }
 
-// Command Object: Define los tipos de datos y las reglas
 class FormularioCommand implements Validateable {
-    
-    // 1. Tipos de Texto
-    String nombre
-    String email
-    String password
-    String sitioWeb
-    String biografia // TextArea
-    
-    // 2. Tipos Numéricos
-    Integer edad
-    BigDecimal salario // Moneda/Decimales
-    
-    // 3. Fechas
-    Date fechaNacimiento
-    
-    // 4. Selección (Enums o Listas)
-    String genero // Radio buttons
-    String departamento // Select simple
-    List<String> habilidades // Select múltiple
-    
-    // 5. Booleanos
+    String nombre, email, telefono, linkedin, password, biografia, modalidad, departamento
+    Integer anosExperiencia
+    BigDecimal pretensionSalarial
+    Date fechaDisponibilidad
+    List<String> habilidades
     Boolean aceptaTerminos
 
-    // REGLAS DE VALIDACIÓN (Aquí se generan las "excepciones" si no se cumplen)
     static constraints = {
-        nombre blank: false, size: 3..50
+        // Validaciones de Texto
+        nombre blank: false, size: 5..60
         email blank: false, email: true
-        password blank: false, minSize: 6
-        sitioWeb url: true, nullable: true
-        biografia maxSize: 1000, nullable: true
+        telefono matches: /^[0-9]{10}$/
+        linkedin nullable: true, url: true
+        password size: 8..30, matches: /^(?=.*[A-Z])(?=.*\d).*$/
+        biografia maxSize: 2000, nullable: true
         
-        edad range: 18..99, nullable: false
-        salario min: 0.0, scale: 2
+        // Validaciones Numéricas
+        anosExperiencia min: 0, max: 50, nullable: false
+        pretensionSalarial min: 1000.0, scale: 2, nullable: false
         
-        fechaNacimiento nullable: false, max: new Date() // No fechas futuras
-        
-        genero inList: ["Masculino", "Femenino", "Otro"], nullable: false
-        departamento inList: ["Ventas", "TI", "RH"], nullable: false
-        habilidades minSize: 1 // Al menos una habilidad seleccionada
-        
-        // Validador personalizado: debe ser true
-        aceptaTerminos validator: { val, obj ->
-            val == true
+        // CORRECCIÓN CRÍTICA AQUÍ: 
+        // Usamos Calendar estándar de Java en lugar de .clearTime()
+        fechaDisponibilidad nullable: false, validator: { val, obj ->
+            if (val == null) return true
+            
+            // Creamos una fecha "Hoy" a las 00:00:00 sin usar clearTime()
+            Calendar hoy = Calendar.getInstance()
+            hoy.set(Calendar.HOUR_OF_DAY, 0)
+            hoy.set(Calendar.MINUTE, 0)
+            hoy.set(Calendar.SECOND, 0)
+            hoy.set(Calendar.MILLISECOND, 0)
+            
+            // Validamos que la fecha ingresada sea hoy o futuro
+            return val >= hoy.getTime()
         }
+        
+        // Listas y Booleanos
+        modalidad inList: ["Remoto", "Híbrido", "Presencial"], nullable: false
+        departamento inList: ["Desarrollo", "Infraestructura", "QA", "Ventas", "RH"], nullable: false
+        habilidades minSize: 1, nullable: false
+        aceptaTerminos validator: { it == true }
     }
 }

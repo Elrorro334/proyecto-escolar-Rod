@@ -43,6 +43,9 @@ grails:
             maxsize: 1000
     controllers:
         defaultScope: singleton
+        upload:
+            maxFileSize: 20971520  
+            maxRequestSize: 20971520
     converters:
         encoding: UTF-8
     views:
@@ -68,6 +71,12 @@ spring:
         unique-names: true
     main:
         banner-mode: "off"
+
+    servlet:
+        multipart:
+            enabled: true
+            max-file-size: 20MB
+            max-request-size: 20MB
     groovy:
         template:
             check-template-location: false
