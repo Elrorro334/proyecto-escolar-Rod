@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Lista - Rodnix</title>
+    <title>Registros existentes - Proyecto Escolar</title>
 </head>
 <body>
 

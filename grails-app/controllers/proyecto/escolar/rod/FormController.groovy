@@ -1,6 +1,5 @@
 package proyecto.escolar.rod
 import grails.validation.Validateable
-import java.util.Calendar
 
 class FormController {
 
@@ -17,51 +16,43 @@ class FormController {
 
         // 2. Simular éxito
         flash.message = "¡Postulación recibida correctamente para ${cmd.nombre}!"
-        render(view: "formulario")
+        redirect(action: "index")
     }
 }
 
 class FormularioCommand implements Validateable {
-    String nombre, email, telefono, linkedin, password, biografia, modalidad, departamento
+    String nombre
+    String email
+    String telefono
+    String password
     Integer anosExperiencia
     BigDecimal pretensionSalarial
-    Date fechaDisponibilidad
+    String modalidad
+    String departamento
     List<String> habilidades
     Boolean aceptaTerminos
 
     static constraints = {
-        // Validaciones de Texto
-        nombre blank: false, size: 5..60
+        // Información Personal
+        nombre blank: false, size: 5..60, matches: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
         email blank: false, email: true
-        telefono matches: /^[0-9]{10}$/
-        linkedin nullable: true, url: true
-        password size: 8..30, matches: /^(?=.*[A-Z])(?=.*\d).*$/
-        biografia maxSize: 2000, nullable: true
+        telefono blank: false, matches: /^[0-9]{10}$/
+        password blank: false, size: 8..30, matches: /^(?=.*[A-Z])(?=.*\d).{8,}$/
         
-        // Validaciones Numéricas
-        anosExperiencia min: 0, max: 50, nullable: false
-        pretensionSalarial min: 1000.0, scale: 2, nullable: false
+        // Perfil Profesional
+        anosExperiencia nullable: true, min: 0, max: 50
+        pretensionSalarial nullable: true, min: 1000.0, scale: 2
         
-        // CORRECCIÓN CRÍTICA AQUÍ: 
-        // Usamos Calendar estándar de Java en lugar de .clearTime()
-        fechaDisponibilidad nullable: false, validator: { val, obj ->
-            if (val == null) return true
-            
-            // Creamos una fecha "Hoy" a las 00:00:00 sin usar clearTime()
-            Calendar hoy = Calendar.getInstance()
-            hoy.set(Calendar.HOUR_OF_DAY, 0)
-            hoy.set(Calendar.MINUTE, 0)
-            hoy.set(Calendar.SECOND, 0)
-            hoy.set(Calendar.MILLISECOND, 0)
-            
-            // Validamos que la fecha ingresada sea hoy o futuro
-            return val >= hoy.getTime()
+        // Selecciones
+        modalidad blank: false, inList: ["Remoto", "Híbrido", "Presencial"]
+        departamento blank: false, inList: ["Desarrollo", "Infraestructura", "QA", "Ventas", "RH"]
+        habilidades nullable: false, minSize: 1
+        
+        // Términos
+        aceptaTerminos validator: { val ->
+            if (val != true) {
+                return ['debe.aceptar.terminos']
+            }
         }
-        
-        // Listas y Booleanos
-        modalidad inList: ["Remoto", "Híbrido", "Presencial"], nullable: false
-        departamento inList: ["Desarrollo", "Infraestructura", "QA", "Ventas", "RH"], nullable: false
-        habilidades minSize: 1, nullable: false
-        aceptaTerminos validator: { it == true }
     }
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Galería</title>
+    <title>Galería - Proyecto Escolar</title>
 </head>
 <body>
 
