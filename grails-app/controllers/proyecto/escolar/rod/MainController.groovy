@@ -61,7 +61,10 @@ class MainController {
         } catch (Exception e) { return false }
     }
 
-    def crash() {
-        throw new RuntimeException("¡Prueba de explosión Rodnix 500!")
+    // En grails-app/controllers/.../FormController.groovy
+
+    def probarError() {
+        // Esto simula un NullPointerException o cualquier fallo catastrófico
+        throw new RuntimeException("¡Simulacro de Explosión Nuclear! ☢️ Testeando la vista 500.")
     }
 }

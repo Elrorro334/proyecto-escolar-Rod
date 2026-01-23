@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>No Encontrado | Rodnix</title>
-    <meta name="layout" content="main">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="layout" content="null">
+    <title>No Encontrado | 404</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        .error-container {
-            max-width: 700px; margin: 80px auto; text-align: center;
-            background: #1a1c23; padding: 60px 40px; border-radius: 20px;
-            border: 1px solid #2c2f3b; color: #ffffff;
+        body {
+            /* Fondo blanco puro */
+            background-color: #ffffff;
+            /* Color de texto oscuro por si agregas algo después */
+            color: #1a1a1a; 
+            overflow: hidden;
         }
-        .text-orange { color: #ffa502; text-shadow: 0 0 15px rgba(255, 165, 2, 0.3); }
-        .big-icon { font-size: 5rem; margin-bottom: 20px; }
-        .big-code { font-size: 8rem; font-weight: 800; line-height: 1; }
-        .btn-rodnix {
-            background: #ffa502; color: #000; padding: 15px 35px;
-            border-radius: 50px; text-decoration: none; font-weight: bold;
-            display: inline-block; margin-top: 30px;
+        iframe {
+            border: none;
+            width: 600px; 
+            height: 600px;
+            pointer-events: none; /* Evita clicks en el iframe */
         }
     </style>
 </head>
-<body>
-    <div class="error-container">
-        <div class="big-icon text-orange"><i class="fas fa-map-marked-alt"></i></div>
-        <div class="big-code text-orange">404</div>
-        <h1>Página No Encontrada</h1>
-        <p style="color:#aaa; font-size:1.2em;">Enlace roto, ruta no existente.</p>
-        
-        <a href="${createLink(uri: '/')}" class="btn-rodnix">
-            <i class="fas fa-undo"></i> Regresar
-        </a>
+<body class="h-screen w-full flex items-center justify-center relative bg-white">
+
+    <div class="z-10 flex items-center justify-center">
+        <iframe src="https://lottie.host/embed/9f174e3a-4b9c-4df2-9f3c-ff723788144f/7Wh8FnPWR5.lottie"></iframe>
     </div>
+
 </body>
 </html>
