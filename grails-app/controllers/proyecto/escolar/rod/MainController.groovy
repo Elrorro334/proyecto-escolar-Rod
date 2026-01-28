@@ -67,4 +67,9 @@ class MainController {
         // Esto simula un NullPointerException o cualquier fallo catastrófico
         throw new RuntimeException("¡Simulacro de Explosión Nuclear! ☢️ Testeando la vista 500.")
     }
+
+    def probar404() {
+        // Intentar acceder a un recurso inexistente para simular un 404
+        response.sendError(404, "Recurso no encontrado para probar la vista 404.")
+    }
 }

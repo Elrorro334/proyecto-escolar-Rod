@@ -50,11 +50,7 @@
         
         <div class="p-6 text-center border-b border-slate-700">
             <div class="relative inline-block group">
-                <a href="${createLink(uri: '/')}">
-                    <img src="https://rodnix.com.mx/images/logoRODNIX.jpg" 
-                         class="w-20 h-20 rounded-full mx-auto border-4 border-brand-dark shadow-md object-cover transition-transform group-hover:scale-105" 
-                         alt="Logo">
-                </a>
+                
             </div>
             <h1 class="mt-4 text-lg font-bold text-white tracking-wide">Proyecto Escolar</h1>
             <p class="text-xs text-slate-500 uppercase tracking-wider mt-1">Desarrollo Web</p>
@@ -80,6 +76,16 @@
             <a href="${createLink(controller: 'form', action: 'index')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
                 <i class="fas fa-file-contract w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
                 <span class="ml-3">Formulario de prueba</span>
+            </a>
+
+            <a href="${createLink(controller: 'main', action: 'probarError')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
+                <i class="fas fa-file-contract w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
+                <span class="ml-3">Pantalla de error 500</span>
+            </a>    
+
+            <a href="${createLink(controller: 'main', action: 'Probar404')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
+                <i class="fas fa-file-contract w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
+                <span class="ml-3">Pantalla de error 404</span>
             </a>
 
         </nav>
