@@ -124,9 +124,17 @@ environments:
             password: ''
 
     production:
+        grails:
+            serverURL: "https://escolar.rodnix.com.mx"
+        server:
+            use-forward-headers: true
+            forward-headers-strategy: framework
+
         dataSource:
             # OPTIMIZADO: 'none' para velocidad y seguridad en Prod
             dbCreate: none
+            
+
             
             # URL DIRECTA A NEUBOX
             url: jdbc:mysql://rodnix.com.mx:3306/rodnixco_escolar?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
