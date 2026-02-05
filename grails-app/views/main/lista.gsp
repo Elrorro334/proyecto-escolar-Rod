@@ -33,6 +33,7 @@
                     <tr>
                         <th class="px-4 py-3 whitespace-nowrap w-1/3">Fecha</th>
                         <th class="px-4 py-3">Nombre Registrado</th>
+                        <th class="px-4 py-3">Acciones CRUD</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-700">
@@ -45,12 +46,25 @@
                                 <td class="px-4 py-3 text-white break-all">
                                     ${p.nombre}
                                 </td>
+                                <td>
+                                <div class="flex items-center space-x-2">
+                                <g:form controller="main" action="delete" id="${p.id}" method="DELETE" name="schoolForm" useToken="true" autocomplete="off" novalidate="novalidate">
+                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                                        Borrar
+                                        </button>                                 
+                                </g:form>
+                    
+                                <g:link controller="main" action="edit" id="${p.id}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full">
+                                        Editar                                 
+                                </g:link>
+                                </div>
+                                </td>
                             </tr>
                         </g:each>
                     </g:if>
                     <g:else>
                         <tr>
-                            <td colspan="2" class="px-4 py-8 text-center text-slate-500">
+                            <td colspan="3" class="px-4 py-8 text-center text-slate-500">
                                 No hay datos registrados aún.
                             </td>
                         </tr>

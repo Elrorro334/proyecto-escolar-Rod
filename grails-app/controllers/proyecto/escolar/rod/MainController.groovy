@@ -46,6 +46,57 @@ class MainController {
         }
     }
 
+    def delete(){
+        def id = params.id
+        def prospecto = Prospecto.get(id)
+        if (prospecto) {
+            prospecto.delete(flush: true)
+            flash.message = "Registro eliminado exitosamente."
+        } else {
+            flash.error = "Registro no encontrado."
+        }
+        redirect(action: "lista")
+    }
+
+    def edit(){
+        def id = params.id
+        def prospecto = Prospecto.get(id)
+        if (prospecto) {
+            render(view: "edit", model: [prospecto: prospecto])
+        } else {
+            flash.error = "Registro no encontrado."
+            redirect(action: "lista")
+        }
+    }
+
+def update() {
+        def id = params.id
+        def nombreUsuario = params.nombre
+        def captchaToken = params["g-recaptcha-response"] 
+
+        if (!verificarCaptcha(captchaToken)) {
+            def prospectoOriginal = Prospecto.get(id)
+            flash.error = "Captcha inválido o expirado. Intenta de nuevo."
+            render(view: "edit", model: [prospecto: prospectoOriginal]) 
+            return
+        }
+
+        def prospecto = Prospecto.get(id)
+        if (prospecto) {
+            prospecto.nombre = nombreUsuario
+            if (prospecto.save(flush: true)) {
+                flash.message = "Registro actualizado exitosamente."
+                redirect(action: "lista")
+            } else {
+                flash.error = "Error al actualizar el registro."
+                render(view: "edit", model: [prospecto: prospecto])
+            }
+        } else {
+            flash.error = "Registro no encontrado."
+            redirect(action: "lista")
+        }
+    }
+
     private boolean verificarCaptcha(String token) {
         if (!token) return false
         try {
