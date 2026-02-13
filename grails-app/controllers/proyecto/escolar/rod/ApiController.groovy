@@ -1,7 +1,6 @@
 package proyecto.escolar.rod
 
 import grails.converters.JSON
-// ELIMINÉ EL IMPORT DE JAVAX QUE ROMPÍA TODO
 
 class ApiController {
 
@@ -15,9 +14,24 @@ class ApiController {
         delete: "POST"
     ]
 
-    // 1. LISTAR
+    // 1. LISTAR (Con filtro de búsqueda)
     def index() {
-        def lista = Prospecto.list(sort: 'fechaRegistro', order: 'desc')
+        def query = params.q
+
+        def lista
+        if (query) {
+            lista = Prospecto.createCriteria().list {
+                or {
+                    ilike('nombre', "%${query}%")
+                    ilike('correo', "%${query}%")
+                    ilike('telefono', "%${query}%")
+                }
+                order('fechaRegistro', 'desc')
+            }
+        } else {
+            lista = Prospecto.list(sort: 'fechaRegistro', order: 'desc')
+        }
+
         render lista as JSON
     }
 
@@ -34,16 +48,13 @@ class ApiController {
 
     // POST /api/save
     def save(ProspectoCommand cmd) {
-        // 1. Validación de datos (Campos vacíos, formato incorrecto)
         if (cmd.hasErrors()) {
             response.status = 400
-            // Usamos el helper para dar un solo mensaje claro en lugar de una lista técnica
             render([exito: false, mensaje: obtenerMensajeError(cmd)] as JSON)
             return
         }
 
         // 2. Validación de Captcha
-        // Nota: cmd.recaptchaToken puede ser nulo si el front falla, validarCaptcha lo maneja
         if (!prospectoService.validarCaptcha(cmd.recaptchaToken)) {
             response.status = 400
             render([exito: false, mensaje: 'Captcha inválido o expirado'] as JSON)
@@ -63,14 +74,11 @@ class ApiController {
         }
     }
 
-    // --- HELPER PARA MENSAJES AMIGABLES ---
-    // Pon esto al final de tu clase ApiController, antes de la última llave }
     private String obtenerMensajeError(def obj) {
         if (!obj.errors.hasErrors()) return "Error desconocido"
         
         def error = obj.errors.allErrors.first()
         
-        // Personaliza tus mensajes aquí según el código de error
         switch(error.code) {
             case 'nullable': return "El campo ${error.field} es obligatorio"
             case 'blank':    return "El campo ${error.field} no puede estar vacío"
@@ -115,10 +123,8 @@ class ApiController {
         }
 
         try {
-            // Convertimos el ID a Long para asegurar que sea un número
             Long id = params.long('id') 
             
-            // Usamos el servicio (Transactional)
             prospectoService.borrar(id)
             
             render([exito: true, mensaje: 'Eliminado correctamente'] as JSON)
@@ -126,7 +132,6 @@ class ApiController {
             response.status = 404
             render([exito: false, mensaje: e.message] as JSON)
         } catch (Exception e) {
-            // Si hay llave foránea u otro error, esto te dirá EXACTAMENTE qué pasó
             response.status = 409 // Conflict
             render([exito: false, mensaje: "No se pudo eliminar: ${e.message}"] as JSON)
         }

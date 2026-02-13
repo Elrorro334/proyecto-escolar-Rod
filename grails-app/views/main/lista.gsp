@@ -20,12 +20,24 @@
         </ol>
     </nav>
 
-    <div class="flex justify-between items-center mb-6 w-full">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 w-full gap-4">
         <h2 class="text-xl font-bold text-white">Registros existentes</h2>
-        <a href="${createLink(controller: 'main', action: 'index')}" 
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors">
-            <i class="fas fa-plus mr-1"></i> Nuevo
-        </a>
+        
+        <div class="flex w-full md:w-auto gap-3">
+            <div class="relative w-full md:w-64">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fas fa-search text-slate-500"></i>
+                </div>
+                <input type="text" id="buscador" 
+                       class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 placeholder-slate-500" 
+                       placeholder="Buscar nombre, correo...">
+            </div>
+
+            <a href="${createLink(controller: 'main', action: 'index')}" 
+               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors flex items-center whitespace-nowrap">
+                <i class="fas fa-plus mr-1"></i> Nuevo
+            </a>
+        </div>
     </div>
 
     <div class="w-full max-w-full bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
@@ -51,27 +63,47 @@
     </div>
 
     <script>
-var URL_LISTA_DATA = "${createLink(controller: 'api', action: 'index')}"; 
-var URL_DELETE = "${createLink(controller: 'api', action: 'delete')}"; 
-var URL_EDIT_PAGE = "${createLink(controller: 'main', action: 'edit')}";
+        // URLs generadas por Grails
+        var URL_LISTA_DATA = "${createLink(controller: 'api', action: 'index')}"; 
+        var URL_DELETE = "${createLink(controller: 'api', action: 'delete')}"; 
+        var URL_EDIT_PAGE = "${createLink(controller: 'main', action: 'edit')}";
 
         document.addEventListener("DOMContentLoaded", function() {
             cargarRegistros();
+
+            // --- LISTENER DEL BUSCADOR ---
+            var buscador = document.getElementById('buscador');
+            var timeout = null;
+
+            buscador.addEventListener('input', function(e) {
+                // Pequeño retardo (debounce) para no saturar el servidor mientras escribes
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    cargarRegistros(e.target.value);
+                }, 300);
+            });
         });
 
-        // 1. FUNCIÓN READ
-        function cargarRegistros() {
+        // 1. FUNCIÓN READ (Ahora acepta filtro)
+        function cargarRegistros(query = '') {
             var tbody = document.getElementById('tabla-registros');
             
-            fetch(URL_LISTA_DATA)
+            // Construimos la URL, si hay búsqueda agregamos ?q=texto
+            var urlFinal = URL_LISTA_DATA;
+            if(query.trim() !== '') {
+                urlFinal += '?q=' + encodeURIComponent(query);
+            }
+            
+            fetch(urlFinal)
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
                     tbody.innerHTML = ''; 
 
                     if (!data || data.length === 0) {
+                        var mensaje = query ? 'No se encontraron coincidencias.' : 'No hay registros guardados todavía.';
                         tbody.innerHTML = '<tr><td colspan="3" class="px-4 py-12 text-center text-slate-500">' +
                                           '<i class="fas fa-folder-open text-4xl mb-3 text-slate-600"></i>' +
-                                          '<p>No hay registros guardados todavía.</p></td></tr>';
+                                          '<p>' + mensaje + '</p></td></tr>';
                         return;
                     }
 
@@ -94,7 +126,6 @@ var URL_EDIT_PAGE = "${createLink(controller: 'main', action: 'edit')}";
                                    '<td class="px-4 py-3 align-middle text-center">' +
                                    '<div class="flex items-center justify-center space-x-2">' +
                                    
-                                   // AQUÍ EL CAMBIO: Redirección simple a la vista de edición
                                    '<a href="' + URL_EDIT_PAGE + '?id=' + p.id + '" ' +
                                    'class="text-yellow-500 hover:text-white hover:bg-yellow-600 border border-yellow-600 hover:border-transparent font-medium rounded-lg text-xs px-3 py-2 transition-all">' +
                                    'Editar</a>' +
@@ -128,8 +159,7 @@ var URL_EDIT_PAGE = "${createLink(controller: 'main', action: 'edit')}";
                     var url = URL_DELETE + "?id=" + id;
 
                     fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
+                        method: 'POST'
                     })
                     .then(function(response) { return response.json(); })
                     .then(function(data) {
@@ -152,4 +182,4 @@ var URL_EDIT_PAGE = "${createLink(controller: 'main', action: 'edit')}";
     </script>
 
 </body>
-</html> 
+</html>
