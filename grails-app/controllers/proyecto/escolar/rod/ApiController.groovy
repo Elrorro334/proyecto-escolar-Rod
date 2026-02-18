@@ -14,27 +14,25 @@ class ApiController {
         delete: "POST"
     ]
 
-    // 1. LISTAR (Con filtro de búsqueda)
-    def index() {
-        def query = params.q
-
-        def lista
-        if (query) {
-            lista = Prospecto.createCriteria().list {
-                or {
-                    ilike('nombre', "%${query}%")
-                    ilike('correo', "%${query}%")
-                    ilike('telefono', "%${query}%")
-                }
-                order('fechaRegistro', 'desc')
-            }
-        } else {
-            lista = Prospecto.list(sort: 'fechaRegistro', order: 'desc')
+def index() {
+    def lista = Prospecto.createCriteria().list {
+        if (params.nombre) {
+            ilike('nombre', "%${params.nombre}%")
         }
 
-        render lista as JSON
+        if (params.correo) {
+            ilike('correo', "%${params.correo}%")
+        }
+
+        if (params.telefono) {
+            ilike('telefono', "%${params.telefono}%")
+        }
+
+        order('fechaRegistro', 'desc')
     }
 
+    render lista as JSON
+}
     // 2. MOSTRAR UNO (GET)
     def show() {
         def prospecto = Prospecto.get(params.id)
