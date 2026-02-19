@@ -15,26 +15,20 @@ class ApiController {
     ]
 
 def index() {
-        int max = params.int('max') ?: 10
-        int offset = params.int('offset') ?: 0
+        int max = params.max ? params.max.toInteger() : 5 // Por defecto 5
+        int offset = params.offset ? params.offset.toInteger() : 0
 
-        def lista = Prospecto.createCriteria().list(max: max, offset: offset) {
-            
-            if (params.nombre) {
-                ilike('nombre', "%${params.nombre}%")
-            }
-            if (params.correo) {
-                ilike('correo', "%${params.correo}%")
-            }
-            if (params.telefono) {
-                ilike('telefono', "%${params.telefono}%")
-            }
-
+        def criteria = Prospecto.createCriteria()
+        def resultados = criteria.list(max: max, offset: offset) {
+            if (params.nombre) ilike('nombre', "%${params.nombre}%")
+            if (params.correo) ilike('correo', "%${params.correo}%")
+            if (params.telefono) ilike('telefono', "%${params.telefono}%")
             order('fechaRegistro', 'desc')
         }
 
-        render lista as JSON
+        render([data: resultados, total: resultados.totalCount] as JSON)
     }
+
     // 2. MOSTRAR UNO (GET)
     def show() {
         def prospecto = Prospecto.get(params.id)
