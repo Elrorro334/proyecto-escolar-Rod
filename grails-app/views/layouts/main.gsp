@@ -63,19 +63,9 @@
                 <span class="ml-3">Inicio</span>
             </a>
 
-            <a href="${createLink(controller: 'main', action: 'lista')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
-                <i class="fas fa-database w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
-                <span class="ml-3">Registros existentes</span>
-            </a>
-
             <a href="${createLink(controller: 'imagen', action: 'index')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
                 <i class="fas fa-images w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
                 <span class="ml-3">Galería Multimedia</span>
-            </a>
-
-            <a href="${createLink(controller: 'form', action: 'index')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">
-                <i class="fas fa-file-contract w-6 text-center text-slate-400 group-hover:text-brand-accent transition-colors"></i>
-                <span class="ml-3">Formulario de prueba</span>
             </a>
 
             <a href="${createLink(controller: 'main', action: 'probarError')}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-brand-hover hover:text-white group">

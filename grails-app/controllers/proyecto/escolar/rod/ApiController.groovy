@@ -15,24 +15,26 @@ class ApiController {
     ]
 
 def index() {
-    def lista = Prospecto.createCriteria().list {
-        if (params.nombre) {
-            ilike('nombre', "%${params.nombre}%")
+        int max = params.int('max') ?: 10
+        int offset = params.int('offset') ?: 0
+
+        def lista = Prospecto.createCriteria().list(max: max, offset: offset) {
+            
+            if (params.nombre) {
+                ilike('nombre', "%${params.nombre}%")
+            }
+            if (params.correo) {
+                ilike('correo', "%${params.correo}%")
+            }
+            if (params.telefono) {
+                ilike('telefono', "%${params.telefono}%")
+            }
+
+            order('fechaRegistro', 'desc')
         }
 
-        if (params.correo) {
-            ilike('correo', "%${params.correo}%")
-        }
-
-        if (params.telefono) {
-            ilike('telefono', "%${params.telefono}%")
-        }
-
-        order('fechaRegistro', 'desc')
+        render lista as JSON
     }
-
-    render lista as JSON
-}
     // 2. MOSTRAR UNO (GET)
     def show() {
         def prospecto = Prospecto.get(params.id)
@@ -52,19 +54,16 @@ def index() {
             return
         }
 
-        // 2. Validación de Captcha
         if (!prospectoService.validarCaptcha(cmd.recaptchaToken)) {
             response.status = 400
             render([exito: false, mensaje: 'Captcha inválido o expirado'] as JSON)
             return
         }
 
-        // 3. Guardar en Base de Datos
         try {
             prospectoService.guardar(cmd)
             render([exito: true, mensaje: 'Guardado correctamente'] as JSON)
         } catch (Exception e) {
-            // Logueamos el error en consola del servidor (para ti), pero al usuario le damos un mensaje genérico
             log.error "Error guardando prospecto: ${e.message}"
             
             response.status = 500
@@ -130,7 +129,7 @@ def index() {
             response.status = 404
             render([exito: false, mensaje: e.message] as JSON)
         } catch (Exception e) {
-            response.status = 409 // Conflict
+            response.status = 409
             render([exito: false, mensaje: "No se pudo eliminar: ${e.message}"] as JSON)
         }
     }
